@@ -1,0 +1,25 @@
+data = load('data.txt');
+labels = load('labels.txt');
+% train split
+train_data =  data(1:2000,:);
+train_labels = labels(1:2000,:);
+% test split
+test_data = data(2001:4601,:);
+test_labels = labels(2001:4601,:);
+%logistic regression
+
+n_list = [200 500 800 1000 1500 2000]
+acc_list = zeros(6,1)
+for i = 1:6
+    n = n_list(i)
+    train_data =  data(1:n,:);
+    train_labels = labels(1:n,:);
+    weights = logistic_train(train_data, train_labels);
+    preds = train_data*weights;
+    preds(preds>0.5) = 1;
+    preds(preds<0.5) = 0;
+    acc = sum(abs(preds-train_labels)) / n;
+    acc_list(i) = acc;
+end
+acc_list
+plot 
